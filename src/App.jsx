@@ -1,28 +1,49 @@
 import React from "react";
-// import "./App.css";
+import "./App.css";
+import notesImg from "./assets/notes.png";
 
 const App = () => {
   return (
-    <div className="container">
-      <form>
+    <div className="main-container">
 
-        <h2>Notes App</h2>
+      <div className="left-section">
+        <div className="form-card">
 
-        <input
-          type="text"
-          placeholder="Enter Notes Heading"
-        />
+          <h1>Notes App</h1>
+          <p className="subtitle">
+            Capture your ideas, tasks, and important notes in one place.
+          </p>
 
-        <textarea
-          placeholder="Enter Notes"
-        >
-        </textarea>
+          <form>
 
-        <button>Add Note</button>
+            <div className="input-group">
+              <label>Note Title</label>
+              <input
+                type="text"
+                placeholder="Enter notes heading"
+              />
+            </div>
+             <div className="input-group">
+              <label>Write Note</label>
+              <textarea
+                placeholder="Write your note here..."
+              ></textarea>
+            </div>
 
-      </form>
+            <button type="submit">
+              Add Note
+            </button>
+
+          </form>
+
+        </div>
+      </div>
+        <div className="right-section">
+        <img src={notesImg} alt="Notes Illustration" />
+      </div>
+
     </div>
   );
-}
+};
 
 export default App;
