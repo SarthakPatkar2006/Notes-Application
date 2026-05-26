@@ -1,68 +1,135 @@
 import React, { useState } from "react";
 import "./App.css";
 import notesImg from "./assets/notes.png";
+import Notes_Card from "./Componenets/Notes_Card";
 
 const App = () => {
-  const submitHandler=(e)=>{
-    e.preventDefault();
-  }
-  const [NotesData,setNotes]=useState({
-    title:"",
-    content:"",
+
+  const [NotesData, setNotes] = useState({
+    title: "",
+    content: "",
   });
-  function change(e){
-    const {name,value}=e.target;
+
+  const [task, setTask] = useState([]);
+
+  function change(e) {
+
+    const { name, value } = e.target;
+
     setNotes({
-      ...NotesData ,//prevData+new updated Data.
-      [name]:value,
+      ...NotesData,
+      [name]: value,
     });
-    // console.log(NotesData.title);
   }
+
+  const submitHandler = (e) => {
+
+    e.preventDefault();
+
+    if (
+      NotesData.title.trim() === "" ||
+      NotesData.content.trim() === ""
+    ) {
+      return;
+    }
+
+    setTask([...task, NotesData]);
+
+    setNotes({
+      title: "",
+      content: "",
+    });
+  };
+
   return (
+
     <div className="main-container">
 
-      <div className="left-section">
-        <div className="form-card">
+      {/* TOP SECTION */}
 
-          <h1>Notes App</h1>
-          <p className="subtitle">
-            Capture your ideas, tasks, and important notes in one place.
-          </p>
+      <div className="top-section">
 
-          <form onSubmit={submitHandler}>
+        {/* LEFT */}
 
-            <div className="input-group">
-              <label>Note Title</label>
-              <input
-                type="text"
-                name="title"
-                value={NotesData.title}
-                placeholder="Enter notes heading"
-                onChange={change}
-              />
-            </div>
-             <div className="input-group">
-              <label>Write Note</label>
-              <textarea
-                placeholder="Write your note here..."
-                name="content"
-                value={NotesData.content}
-                onChange={change}
-              ></textarea>
-            </div>
+        <div className="left-section">
 
-            <button type="submit">
-              Add Note
-            </button>
+          <div className="form-card">
 
-          </form>
+            <h1>Notes App</h1>
+
+            <p className="subtitle">
+              Capture your ideas, tasks, and important notes in one place.
+            </p>
+
+            <form onSubmit={submitHandler}>
+
+              <div className="input-group">
+
+                <label>Note Title</label>
+
+                <input
+                  type="text"
+                  name="title"
+                  value={NotesData.title}
+                  placeholder="Enter notes heading"
+                  onChange={change}
+                />
+
+              </div>
+
+              <div className="input-group">
+
+                <label>Write Note</label>
+
+                <textarea
+                  placeholder="Write your note here..."
+                  name="content"
+                  value={NotesData.content}
+                  onChange={change}
+                >
+                </textarea>
+
+              </div>
+
+              <button type="submit">
+                Add Note
+              </button>
+
+            </form>
+
+          </div>
 
         </div>
-      </div>
+
+        {/* RIGHT */}
+
         <div className="right-section">
-        <img src={notesImg} alt="Notes Illustration" />
+
+          <img
+            src={notesImg}
+            alt="Notes Illustration"
+          />
+
+        </div>
+
       </div>
-      <div className="history"></div>
+
+      {/* HISTORY */}
+
+      <div className="history">
+
+        {
+          task.map((note, idx) => (
+            <Notes_Card
+              key={idx}
+              title={note.title}
+              content={note.content}
+            />
+          ))
+        }
+
+      </div>
+
     </div>
   );
 };
