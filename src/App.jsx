@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./App.css";
 import notesImg from "./assets/notes.png";
-import Notes_Card from "./Componenets/Notes_Card";
+import Notes_Card from "./Componenets/Notes_Card.jsx";
+import {Delete_Note}  from "./utility/noteOperation.js";
 
 const App = () => {
 
@@ -41,6 +42,10 @@ const App = () => {
     });
   };
 
+  function handleDelete(idx){
+    const updated_task=Delete_Note(task,idx);
+    setTask(updated_task);
+  }
   return (
 
     <div className="main-container">
@@ -122,7 +127,9 @@ const App = () => {
           task.map((note, idx) => (
             <Notes_Card
               key={idx}
+              idx={idx}
               title={note.title}
+              Note_delete={handleDelete}
               content={note.content}
             />
           ))
