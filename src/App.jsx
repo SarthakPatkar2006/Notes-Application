@@ -1,8 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 import notesImg from "./assets/notes.png";
 
 const App = () => {
+  const submitHandler=(e)=>{
+    e.preventDefault();
+  }
+  const [NotesData,setNotes]=useState({
+    title:"",
+    content:"",
+  });
+  function change(e){
+    const {name,value}=e.target;
+    setNotes({
+      ...NotesData ,//prevData+new updated Data.
+      [name]:value,
+    });
+    // console.log(NotesData.title);
+  }
   return (
     <div className="main-container">
 
@@ -14,19 +29,25 @@ const App = () => {
             Capture your ideas, tasks, and important notes in one place.
           </p>
 
-          <form>
+          <form onSubmit={submitHandler}>
 
             <div className="input-group">
               <label>Note Title</label>
               <input
                 type="text"
+                name="title"
+                value={NotesData.title}
                 placeholder="Enter notes heading"
+                onChange={change}
               />
             </div>
              <div className="input-group">
               <label>Write Note</label>
               <textarea
                 placeholder="Write your note here..."
+                name="content"
+                value={NotesData.content}
+                onChange={change}
               ></textarea>
             </div>
 
@@ -41,7 +62,7 @@ const App = () => {
         <div className="right-section">
         <img src={notesImg} alt="Notes Illustration" />
       </div>
-
+      <div className="history"></div>
     </div>
   );
 };
