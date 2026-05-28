@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import notesImg from "./assets/notes.png";
 import Notes_Card from "./Componenets/Notes_Card.jsx";
@@ -11,16 +11,29 @@ const App = () => {
     content: "",
   });
 
-  const [task, setTask] = useState([]);
+  const [task, setTask] = useState(()=>{
+    const savedNotes=localStorage.getItem("notes");
+    if(savedNotes){
+      return JSON.parse(savedNotes);
+    }
+    return [];
+  });
+  // save to local storage:
+  useEffect(()=>{
+    console.log("saving notes:",task);
+    localStorage.setItem(
+      "notes",JSON.stringify(task)
+    );
+  },[task]);  //[task]=dependency=means run only when task array changed
 
   function change(e) {
 
     const { name, value } = e.target;
 
-    setNotes({
-      ...NotesData,
+    setNotes((prevData)=>({
+      ...prevData,  //copying old data and add new data
       [name]: value,
-    });
+    }));
   }
 
   const submitHandler = (e) => {
@@ -46,6 +59,7 @@ const App = () => {
     const updated_task=Delete_Note(task,idx);
     setTask(updated_task);
   }
+  // local storage initilization.
   return (
 
     <div className="main-container">
